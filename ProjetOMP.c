@@ -30,14 +30,14 @@ int main(void) {
   #pragma omp parallel
   {
     omp = omp_get_thread_num();
-    printf("bloc n°\n",omp+1 );
+    printf("bloc n°%d\n",omp+1 );
     generator(bloc[omp]);
     tri(bloc[omp],0,SIZE_BLOC-1);
   }
 
   for (i = 0; i < NOMBRE_BLOC; i++) {
     for (j = 0; j < SIZE_BLOC; j++) {
-      printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[j] );
+      printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
     }
   }
   // int tmp = SIZE_BLOC;
