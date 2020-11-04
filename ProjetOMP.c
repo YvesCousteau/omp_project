@@ -42,25 +42,26 @@ int main(void) {
   }
 
   printf("------------------------\n");
-  
+
   int tmp = SIZE_BLOC;
   for (j = 1; j < NOMBRE_BLOC-1; j++) {
     tmp = 1 + (j % 2);
     omp_set_num_threads((NOMBRE_BLOC / 2) - 1);
     #pragma omp parallel
     {
+      int minim;
+      int maxim;
       omp = omp_get_thread_num();
-      int b1 = bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC];
-      int b2 = bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC];
-      min = min(b1, b2);
-      printf("minimum %d\n",min);
-      max = max(b1, b2);
-      printf("maximum %d\n",max);
-      tri_merge(b1, b2);
+      minim = min(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      printf("minimum %d\n",minim);
+      maxim = max(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      printf("maximum %d\n",maxim);
 
-      for (i = 0; i < NOMBRE_BLOC; i++) {
-        printf("n°%d || bout1 %d || bout2 %d || omp n°%d \n",i+1,b1[i],b2[i],omp);
-      }
+      // tri_merge(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      //
+      // for (i = 0; i < NOMBRE_BLOC; i++) {
+      //   printf("n°%d || bout1 %d || bout2 %d || omp n°%d \n",i+1,bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC][i],bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC][i],omp);
+      // }
       printf("\n\n\n");
     }
   }
