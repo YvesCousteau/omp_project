@@ -52,9 +52,10 @@ int main(void) {
       int minim;
       int maxim;
       omp = omp_get_thread_num();
-      minim = min(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+
+      minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("minimum %d\n",minim);
-      maxim = max(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("maximum %d\n",maxim);
 
       // tri_merge(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
