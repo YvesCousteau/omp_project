@@ -15,15 +15,16 @@
 void generator(int* bloc);
 void tri(int* bloc, int begin, int end);
 void permuter(int *left, int *right);
-void min(int* b1, int* b2);
-void max(int* b1, int* b2);
+int min(int* b1, int* b2);
+int max(int* b1, int* b2);
 void tri_merge();
 
 int main(void) {
   int bloc[NOMBRE_BLOC][SIZE_BLOC];
   int i = 0;
-  int j = 0
+  int j = 0;
   int omp;
+
   omp_set_num_threads(NOMBRE_BLOC);
   srand( time( NULL ) );
   #pragma omp parallel
@@ -33,27 +34,33 @@ int main(void) {
     generator(bloc[omp]);
     tri(bloc[omp],0,SIZE_BLOC-1);
   }
-  tmp = SIZE_BLOC;
-  for (j = 1; j < NOMBRE_BLOC-1; j++) {
-    tmp = 1 + (j % 2);
-    omp_set_num_threads((NOMBRE_BLOC / 2) - 1);
-    #pragma omp parallel
-    {
-      omp = omp_get_thread_num();
-      b1 = bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC];
-      b2 = bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC];
-      min = min(b1, b2);
-      printf("minimum %d\n",min);
-      max = max(b1, b2);
-      printf("maximum %d\n",max);
-      tri_merge(b1, b2);
 
-      for (i = 0; i < count; i++) {
-        printf("n°%d || bout1 %d || bout2 %d || omp n°%d \n",i+1,b1[i],b2[i],omp);
-      }
-      printf("\n\n\n");
+  for (i = 0; i < NOMBRE_BLOC; i++) {
+    for (j = 0; j < SIZE_BLOC; j++) {
+      printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[j] );
     }
   }
+  // int tmp = SIZE_BLOC;
+  // for (j = 1; j < NOMBRE_BLOC-1; j++) {
+  //   tmp = 1 + (j % 2);
+  //   omp_set_num_threads((NOMBRE_BLOC / 2) - 1);
+  //   #pragma omp parallel
+  //   {
+  //     omp = omp_get_thread_num();
+  //     int b1 = bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC];
+  //     int b2 = bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC];
+  //     min = min(b1, b2);
+  //     printf("minimum %d\n",min);
+  //     max = max(b1, b2);
+  //     printf("maximum %d\n",max);
+  //     tri_merge(b1, b2);
+  //
+  //     for (i = 0; i < NOMBRE_BLOC; i++) {
+  //       printf("n°%d || bout1 %d || bout2 %d || omp n°%d \n",i+1,b1[i],b2[i],omp);
+  //     }
+  //     printf("\n\n\n");
+  //   }
+  // }
 }
 
 void generator(int* bloc)
@@ -80,58 +87,61 @@ void tri(int* bloc,int begin,int end)
     i = begin;
     j = end;
     while (i < j) {
-        while(tab[i] <= tab[rot] && i < end)
+        while(bloc[i] <= bloc[rot] && i < end)
             i++;
-        while(tab[j] > tab[rot])
+        while(bloc[j] > bloc[rot])
             j--;
         if(i < j) {
-            permuter(&tab[i], &tab[j]);
+            permuter(&bloc[i], &bloc[j]);
         }
     }
-    permuter(&tab[rot], &tab[j]);
-    tri(tab, begin, j - 1);
-    tri(tab, j + 1, end);
+    permuter(&bloc[rot], &bloc[j]);
+    tri(bloc, begin, j - 1);
+    tri(bloc, j + 1, end);
   }
 }
 
 void permuter(int *left, int *right) {
-    int switch;
-    switch = *left;
+    int tmp;
+    tmp = *left;
     *left = *right;
-    *right = switch;
+    *right = tmp;
 }
 
-void min(int* b1, int* b2)
+int min(int* b1, int* b2)
 {
   int min;
-  for (int i = 0; i < SIZE_BLOC; i++) {
-    for (int j = 0; j < count; j++) {
-      if (b1[i] > b2[j]) {
-        min = b2[j];
-        i++
-      }else{
-        min = b1[i];
-        j++
-      }
+  int i = 0;
+  int j = 0;
+  while (i < SIZE_BLOC || j < SIZE_BLOC) {
+    if (b1[i] > b2[j]) {
+      min = b2[j];
+      i++;
+    }else{
+      min = b1[i];
+      j++;
     }
   }
+  return min;
 }
 
-void max(int* b1, int* b2)
+int max(int* b1, int* b2)
 {
   int max;
-  for (int i = 0; i < SIZE_BLOC; i++) {
-    for (int j = 0; j < count; j++) {
-      if (b1[i] < b2[j]) {
-        max = b2[j];
-        i++
-      }else{
-        max = b1[i];
-        j++
-      }
+  int i = 0;
+  int j = 0;
+  while (i < SIZE_BLOC || j < SIZE_BLOC) {
+    if (b1[i] < b2[j]) {
+      max = b2[j];
+      i++;
+    }else{
+      max = b1[i];
+      j++;
     }
   }
+  return max;
 }
+
 
 void tri_merge(int* b1, int* b2)
 {
@@ -143,7 +153,7 @@ void tri_merge(int* b1, int* b2)
     b[SIZE_BLOC+i]=b2[i];
   }
   tri(b,0,(SIZE_BLOC*2)-1);
-  for (i = 0; i < SIZE_BLOC; i++) {
+  for (int i = 0; i < SIZE_BLOC; i++) {
     b1[i]=b[i];
     b2[i]=b[SIZE_BLOC+i];
   }
