@@ -9,7 +9,7 @@
 #include <omp.h>
 
 #define SIZE_BLOC 10
-#define NOMBRE_BLOC 5
+#define NOMBRE_BLOC 10
 #define RANDOM_NOMBRE_MAX 1000
 
 void generator(int* bloc);
@@ -51,7 +51,7 @@ int main(void) {
     omp_set_num_threads((NOMBRE_BLOC / 2) - 1);
 
     printf("tmp : %d\n", tmp);
-    printf("(NOMBRE_BLOC / 2) - 1 : %d\n", (NOMBRE_BLOC / 2) - 1);
+    printf("omp : %d\n", (NOMBRE_BLOC / 2) - 1);
 
     #pragma omp parallel
     {
