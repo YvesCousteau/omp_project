@@ -67,7 +67,7 @@ int main(void) {
       maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("maximum %d\n",maxim);
 
-      tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], (&bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
 
       printf("\n\n\n");
     }
