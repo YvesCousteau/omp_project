@@ -67,12 +67,17 @@ int main(void) {
       maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("maximum %d\n",maxim);
 
-      // tri_merge(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
-      //
-      // for (i = 0; i < NOMBRE_BLOC; i++) {
-      //   printf("n°%d || bout1 %d || bout2 %d || omp n°%d \n",i+1,bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC][i],bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC][i],omp);
-      // }
+      tri_merge(bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+
       printf("\n\n\n");
+    }
+  }
+
+  printf("------------------------\n");
+
+  for (i = 0; i < NOMBRE_BLOC; i++) {
+    for (j = 0; j < SIZE_BLOC; j++) {
+      printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
     }
   }
 }
