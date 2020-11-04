@@ -43,15 +43,24 @@ int main(void) {
 
   printf("------------------------\n");
 
-  int tmp = SIZE_BLOC;
+  int tmp;
+  printf("NOMBRE_BLOC-1 : %d\n", NOMBRE_BLOC-1);
   for (j = 1; j < NOMBRE_BLOC-1; j++) {
     tmp = 1 + (j % 2);
+
     omp_set_num_threads((NOMBRE_BLOC / 2) - 1);
+
+    printf("tmp : %d\n", tmp);
+    printf("NOMBRE_BLOC-1 : %d\n", (NOMBRE_BLOC / 2) - 1);
+
     #pragma omp parallel
     {
       int minim;
       int maxim;
       omp = omp_get_thread_num();
+
+      printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
+      printf("b2 %d\n",1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC);
 
       minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("minimum %d\n",minim);
