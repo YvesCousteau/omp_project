@@ -36,11 +36,11 @@ int main(void) {
 
   }
 
-  for (i = 0; i < NOMBRE_BLOC; i++) {
-    for (j = 0; j < SIZE_BLOC; j++) {
-      printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
-    }
-  }
+  // for (i = 0; i < NOMBRE_BLOC; i++) {
+  //   for (j = 0; j < SIZE_BLOC; j++) {
+  //     printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
+  //   }
+  // }
 
   printf("------------------------\n");
 
@@ -67,9 +67,8 @@ int main(void) {
       printf("minimum %d\n",minim);
       maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("maximum %d\n",maxim);
-      printf("------------------------\n");
 
-      // tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
 
       printf("\n\n");
 
