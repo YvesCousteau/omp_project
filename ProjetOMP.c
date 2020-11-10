@@ -93,7 +93,7 @@ int main(void) {
 
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-  printf("times(s) : %f\n", elapsed/1000);
+  printf("times(s) : %f\n", elapsed);
 }
 
 void generator(int* bloc)
