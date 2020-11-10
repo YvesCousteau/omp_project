@@ -20,7 +20,7 @@ int max(int* b1, int* b2);
 void tri_merge();
 
 int main(void) {
-  clock_t begin = clock();
+  double startTime = omp_get_wtime();
 
   int bloc[NOMBRE_BLOC][SIZE_BLOC];
   int i = 0;
@@ -85,8 +85,8 @@ int main(void) {
   //   }
   // }
 
-  clock_t end = clock();
-  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  double stopTime = omp_get_wtime();
+  double secsElapsed = stopTime - startTime; // that's all !
   printf("%d\n", time_spent);
 }
 
