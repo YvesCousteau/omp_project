@@ -22,7 +22,7 @@ void tri_merge();
 int main(void) {
   struct timespec start, finish;
   double elapsed;
-  clock_gettime(CLOCK_MONOTONIC, &start);
+  clock_gettime(CLOCK_REALTIME, &start);
 
   int bloc[NOMBRE_BLOC][SIZE_BLOC];
   int i = 0;
@@ -88,10 +88,10 @@ int main(void) {
   // }
 
 
-  clock_gettime(CLOCK_MONOTONIC, &finish);
+  clock_gettime(CLOCK_REALTIME, &finish);
 
   elapsed = (finish.tv_sec - start.tv_sec);
-  elapsed += (finish.tv_nsec - start.tv_nsec) / 10.0;
+  elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
   printf("time : %d\n", elapsed);
 }
 
