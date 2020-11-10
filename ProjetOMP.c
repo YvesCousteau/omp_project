@@ -9,7 +9,7 @@
 #include <omp.h>
 
 #define SIZE_BLOC 10
-#define NOMBRE_BLOC 10
+#define NOMBRE_BLOC 10000
 #define RANDOM_NOMBRE_MAX 1000
 
 void generator(int* bloc);
