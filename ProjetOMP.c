@@ -25,14 +25,16 @@ int main(void) {
   int j = 0;
   int omp;
 
-  omp_set_num_threads(NOMBRE_BLOC);
+  omp_set_num_threads(4);
   srand( time( NULL ) );
-  #pragma omp parallel
+  #pragma omp for
   {
-    omp = omp_get_thread_num();
-    printf("bloc n°%d\n",omp+1 );
-    generator(bloc[omp]);
-    tri(bloc[omp],0,SIZE_BLOC-1);
+    for (omp = 0; omp < n; omp++)
+    {
+      printf("bloc n°%d\n",omp+1 );
+      generator(bloc[omp]);
+      tri(bloc[omp],0,SIZE_BLOC-1);
+    }
   }
 
   for (i = 0; i < NOMBRE_BLOC; i++) {
@@ -48,28 +50,28 @@ int main(void) {
   for (j = 1; j < NOMBRE_BLOC-1; j++) {
     tmp = 1 + (j % 2);
 
-    omp_set_num_threads((NOMBRE_BLOC / 2) - 1);
 
     printf("tmp : %d\n", tmp);
     printf("omp : %d\n", (NOMBRE_BLOC / 2) - 1);
 
-    #pragma omp parallel
+    #pragma omp for
     {
-      int minim;
-      int maxim;
-      omp = omp_get_thread_num();
+      for (omp = 0; omp < (4 / 2) - 1; omp++) {
+        int minim;
+        int maxim;
 
-      printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
-      printf("b2 %d\n",1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC);
+        printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
+        printf("b2 %d\n",1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC);
 
-      minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
-      printf("minimum %d\n",minim);
-      maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (tmp + 2 * omp + 1) % NOMBRE_BLOC]);
-      printf("maximum %d\n",maxim);
+        minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
+        printf("minimum %d\n",minim);
+        maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
+        printf("maximum %d\n",maxim);
 
-      // tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+        // tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
 
-      printf("\n\n\n");
+        printf("\n\n\n");
+      }
     }
   }
 
