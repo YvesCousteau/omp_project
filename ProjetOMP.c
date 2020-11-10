@@ -79,7 +79,7 @@ int main(void) {
   //   for (j = 0; j < SIZE_BLOC; j++) {
   //     printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
   //   }
-  }
+  // }
 }
 
 void generator(int* bloc)
