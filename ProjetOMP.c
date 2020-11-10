@@ -20,7 +20,9 @@ int max(int* b1, int* b2);
 void tri_merge();
 
 int main(void) {
-  double startTime = omp_get_wtime();
+  struct timespec start, finish;
+  double elapsed;
+  clock_gettime(CLOCK_MONOTONIC, &start);
 
   int bloc[NOMBRE_BLOC][SIZE_BLOC];
   int i = 0;
@@ -85,9 +87,12 @@ int main(void) {
   //   }
   // }
 
-  double stopTime = omp_get_wtime();
-  double secsElapsed = stopTime - startTime; // that's all !
-  printf("%d\n", secsElapsed);
+
+  clock_gettime(CLOCK_MONOTONIC, &finish);
+
+  elapsed = (finish.tv_sec - start.tv_sec);
+  elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
+  printf("time : %d\n", elapsed);
 }
 
 void generator(int* bloc)
@@ -112,13 +117,13 @@ void tri(int* bloc,int begin,int end)
     i = begin;
     j = end;
     while (i < j) {
-        while(bloc[i] <= bloc[rot] && i < end)
-            i++;
-        while(bloc[j] > bloc[rot])
-            j--;
-        if(i < j) {
-            permuter(&bloc[i], &bloc[j]);
-        }
+      while(bloc[i] <= bloc[rot] && i < end)
+      i++;
+      while(bloc[j] > bloc[rot])
+      j--;
+      if(i < j) {
+        permuter(&bloc[i], &bloc[j]);
+      }
     }
     permuter(&bloc[rot], &bloc[j]);
     tri(bloc, begin, j - 1);
@@ -127,10 +132,10 @@ void tri(int* bloc,int begin,int end)
 }
 
 void permuter(int *left, int *right) {
-    int tmp;
-    tmp = *left;
-    *left = *right;
-    *right = tmp;
+  int tmp;
+  tmp = *left;
+  *left = *right;
+  *right = tmp;
 }
 
 int min(int* b1, int* b2)
