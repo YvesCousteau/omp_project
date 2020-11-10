@@ -20,9 +20,10 @@ int max(int* b1, int* b2);
 void tri_merge();
 
 int main(void) {
+
   struct timespec start, finish;
   double elapsed;
-  clock_gettime(CLOCK_REALTIME, &start);
+  clock_gettime(CLOCK_MONOTONIC, &start);
 
   int bloc[NOMBRE_BLOC][SIZE_BLOC];
   int i = 0;
@@ -88,11 +89,11 @@ int main(void) {
   // }
 
 
-  clock_gettime(CLOCK_REALTIME, &finish);
+  clock_gettime(CLOCK_MONOTONIC, &finish);
 
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-  printf("time : %d\n", elapsed/1000);
+  printf("times(s) : %d\n", elapsed/1000);
 }
 
 void generator(int* bloc)
