@@ -49,15 +49,17 @@ int main(void) {
   for (j = 1; j < NOMBRE_BLOC-1; j++) {
     tmp = 1 + (j % 2);
 
-
+    printf("------------------------\n");
     printf("tmp : %d\n", tmp);
     printf("omp : %d\n", (NOMBRE_BLOC / 2) - 1);
+    printf("------------------------\n");
 
     #pragma omp for
     for (omp = 0; omp < (4 / 2) - 1; omp++) {
       int minim;
       int maxim;
 
+      printf("------------------------\n");
       printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
       printf("b2 %d\n",1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC);
 
@@ -65,10 +67,11 @@ int main(void) {
       printf("minimum %d\n",minim);
       maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
       printf("maximum %d\n",maxim);
+      printf("------------------------\n");
 
       // tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
 
-      printf("\n\n\n");
+      printf("\n\n");
 
     }
   }
