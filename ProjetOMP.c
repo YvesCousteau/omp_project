@@ -87,7 +87,7 @@ int main(void) {
 
   double stopTime = omp_get_wtime();
   double secsElapsed = stopTime - startTime; // that's all !
-  printf("%d\n", time_spent);
+  printf("%d\n", secsElapsed);
 }
 
 void generator(int* bloc)
