@@ -28,13 +28,12 @@ int main(void) {
   omp_set_num_threads(4);
   srand( time( NULL ) );
   #pragma omp for
+  for (omp = 0; omp < NOMBRE_BLOC; omp++)
   {
-    for (omp = 0; omp < NOMBRE_BLOC; omp++)
-    {
-      printf("bloc n°%d\n",omp+1 );
-      generator(bloc[omp]);
-      tri(bloc[omp],0,SIZE_BLOC-1);
-    }
+    printf("bloc n°%d\n",omp+1 );
+    generator(bloc[omp]);
+    tri(bloc[omp],0,SIZE_BLOC-1);
+
   }
 
   for (i = 0; i < NOMBRE_BLOC; i++) {
@@ -55,23 +54,22 @@ int main(void) {
     printf("omp : %d\n", (NOMBRE_BLOC / 2) - 1);
 
     #pragma omp for
-    {
-      for (omp = 0; omp < (4 / 2) - 1; omp++) {
-        int minim;
-        int maxim;
+    for (omp = 0; omp < (4 / 2) - 1; omp++) {
+      int minim;
+      int maxim;
 
-        printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
-        printf("b2 %d\n",1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC);
+      printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
+      printf("b2 %d\n",1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC);
 
-        minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
-        printf("minimum %d\n",minim);
-        maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
-        printf("maximum %d\n",maxim);
+      minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
+      printf("minimum %d\n",minim);
+      maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
+      printf("maximum %d\n",maxim);
 
-        // tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
+      // tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
 
-        printf("\n\n\n");
-      }
+      printf("\n\n\n");
+
     }
   }
 
