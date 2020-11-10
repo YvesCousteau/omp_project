@@ -75,10 +75,10 @@ int main(void) {
 
   printf("------------------------\n");
 
-  for (i = 0; i < NOMBRE_BLOC; i++) {
-    for (j = 0; j < SIZE_BLOC; j++) {
-      printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
-    }
+  // for (i = 0; i < NOMBRE_BLOC; i++) {
+  //   for (j = 0; j < SIZE_BLOC; j++) {
+  //     printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
+  //   }
   }
 }
 
