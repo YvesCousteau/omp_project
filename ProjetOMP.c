@@ -20,6 +20,8 @@ int max(int* b1, int* b2);
 void tri_merge();
 
 int main(void) {
+  clock_t begin = clock();
+
   int bloc[NOMBRE_BLOC][SIZE_BLOC];
   int i = 0;
   int j = 0;
@@ -82,6 +84,10 @@ int main(void) {
   //     printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
   //   }
   // }
+
+  clock_t end = clock();
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  printf("%d\n", time_spent);
 }
 
 void generator(int* bloc)
