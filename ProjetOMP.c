@@ -29,7 +29,7 @@ int main(void) {
   srand( time( NULL ) );
   #pragma omp for
   {
-    for (omp = 0; omp < n; omp++)
+    for (omp = 0; omp < NOMBRE_BLOC; omp++)
     {
       printf("bloc n°%d\n",omp+1 );
       generator(bloc[omp]);
