@@ -42,14 +42,16 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
 
   int bloc[nb_bloc][size_bloc];
 
-  int bloc = malloc( sizeof(char*) * nb_bloc);
-  for (i = 0; i < nb_bloc; i++) {
-        bloc[i] = malloc(sizeof(char) * size_bloc);
-  }
+
 
   int i = 0;
   int j = 0;
   int omp;
+
+  int bloc = malloc( sizeof(char*) * nb_bloc);
+  for (i = 0; i < nb_bloc; i++) {
+        bloc[i] = malloc(sizeof(char) * size_bloc);
+  }
 
 
 
