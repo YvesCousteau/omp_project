@@ -18,18 +18,18 @@ void permuter(int *left, int *right);
 int min(int* b1, int* b2, int size_bloc);
 int max(int* b1, int* b2, int size_bloc);
 void tri_merge(int* b1, int* b2,int size_bloc);
-int project(int size_bloc, int nb_bloc,int nb_thread);
+float project(int size_bloc, int nb_bloc,int nb_thread);
 
 int main() {
-  float tab_times;
+  float tab_times[10];
 
-  tab_times = project(10,100000,4);
-  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",100000,10,4, tab_times);
+  tab_times[0] = project(10,100000,4);
+  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",100000,10,4, tab_times[0]);
 
   return 0;
 }
 
-int project(int size_bloc,int nb_bloc,int nb_thread) {
+float project(int size_bloc,int nb_bloc,int nb_thread) {
 
   struct timespec start, finish;
   double elapsed;
