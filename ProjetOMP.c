@@ -38,8 +38,8 @@ int main() {
 
   printf("----\n");
 
-  tab_times[0] = project(10,100000,4);
-  tab_times[1] = project(10,100000,2);
+  tab_times[0] = project(100,100000,4);
+  tab_times[1] = project(100,100000,2);
 
 
 
