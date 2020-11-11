@@ -25,7 +25,7 @@ int main() {
 
   tab_times[0] = project(10,100000,4);
   printf("sexe\n\n");
-  tab_times[1] = project(10,100000000,4);
+  tab_times[1] = project(10,100000,4);
 
 
 
@@ -50,7 +50,7 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   omp_set_num_threads(nb_thread);
 
   printf("sexe\n\n");
-  
+
   srand( time( NULL ) );
   #pragma omp for
   for (omp = 0; omp < nb_bloc; omp++)
