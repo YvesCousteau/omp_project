@@ -45,7 +45,6 @@ int project(int size_bloc,int nb_bloc,int nb_thread) {
   #pragma omp for
   for (omp = 0; omp < nb_bloc; omp++)
   {
-    printf("bloc n°%d\n",omp+1 );
     generator(bloc[omp],size_bloc);
     tri(bloc[omp],0,size_bloc-1);
 
@@ -53,7 +52,6 @@ int project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   int tmp;
-  printf("NOMBRE_BLOC-1 : %d\n", nb_bloc-1);
   for (j = 1; j < nb_bloc-1; j++) {
     tmp = 1 + (j % 2);
 
@@ -98,9 +96,7 @@ void generator(int* bloc,int size_bloc)
   for (int i = 0; i < size_bloc; i++) {
     random_value = rand() % RANDOM_NOMBRE_MAX;
     bloc[i] = random_value;
-    printf("bloc[%d] : %d\n",i,bloc[i] );
   }
-  printf("\n\n\n");
 }
 
 void tri(int* bloc,int begin,int end)
