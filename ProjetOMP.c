@@ -24,7 +24,7 @@ int main() {
   float tab_times[10];
 
   tab_times[0] = project(10,100000,4);
-  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",100000,10,4, tab_times[0]);
+  tab_times[1] = project(1000,100000,4);
 
   return 0;
 }
