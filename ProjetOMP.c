@@ -89,10 +89,8 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   // printf("complexité en temps : %f\n", elapsed);
   // printf("complexité en espace : %f\n", elapsed);
 
-  for ( i = 0; i < count; i++) {
-    for ( j = 0; j < count; j++) {
-      free(bloc[i][j]);
-    }
+  for ( i = 0; i < nb_bloc; i++) {
+      free(bloc[i]);
   }
   free(bloc);
 
