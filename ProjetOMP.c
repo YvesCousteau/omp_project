@@ -26,7 +26,7 @@ int main() {
   tab_times[0] = project(10,100000,4);
   tab_times[1] = project(10,100000000,4);
 
-  free(tab_times);
+
 
   return 0;
 }
@@ -92,10 +92,10 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   // printf("complexité en espace : %f\n", elapsed);
 
 
-  for ( i = 0; i < nb_bloc; i++) {
-      free(bloc[i]);
-  }
-  free(bloc);
+  // for ( i = 0; i < nb_bloc; i++) {
+  //     free(bloc[i]);
+  // }
+  // free(bloc);
 
 
   return elapsed;
