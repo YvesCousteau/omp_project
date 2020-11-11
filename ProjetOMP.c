@@ -25,7 +25,7 @@ int main() {
 
   tab_times[0] = project(10,100000,4);
   printf("sexe\n\n");
-  tab_times[1] = project(10,10000000,4);
+  tab_times[1] = project(10,1000,4);
 
 
 
