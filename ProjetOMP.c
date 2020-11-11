@@ -91,12 +91,33 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
     #pragma omp for
     for (omp = 0; omp < (4 / 2) - 1; omp++) {
+
       int minim;
       int maxim;
+      int k;
 
-      minim = min(bloc[1 + (tmp + 2 * omp) % nb_bloc], bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc],size_bloc);
-      maxim = max(bloc[1 + (tmp + 2 * omp) % nb_bloc], bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc],size_bloc);
-      tri_merge(bloc[1 + (tmp + 2 * i) % nb_bloc], bloc[1 + (size_bloc + 2 * i + 1) % nb_bloc],size_bloc);
+      int* b1 = malloc( sizeof(int) * nb_bloc);
+      for (i = 0; i < size_bloc; i++)
+      {
+        b1[i] = bloc[1 + (tmp + 2 * omp) % nb_bloc][i];
+      }
+      int* b2 = malloc( sizeof(int) * size_bloc);
+      for (i = 0; i < size_bloc; i++)
+      {
+        b2[i] = bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][i];
+      }
+
+      minim = min(b1, b2);
+      maxim = max(b1, b2);
+      printf("min : %d ||max : %d\n",minim,maxim );
+      tri_merge(b1, b2);
+
+
+      for (k = 0; k < size_bloc; k++)
+      {
+        bloc[1 + (tmp + 2 * omp) % nb_bloc][k] = b1[i];
+        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2][i];
+      }
 
     }
   }
