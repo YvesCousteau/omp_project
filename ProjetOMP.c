@@ -15,8 +15,8 @@
 void generator(int* bloc, int size_bloc);
 void tri(int* bloc, int begin, int end);
 void permuter(int *left, int *right);
-int min(int* b1, int* b2, int size_bloc);
-int max(int* b1, int* b2, int size_bloc);
+int min(int b1, int b2, int size_bloc);
+int max(int b1, int b2, int size_bloc);
 void tri_merge(int* b1, int* b2,int size_bloc);
 double project(int size_bloc, int nb_bloc,int nb_thread);
 
@@ -79,7 +79,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   srand( time( NULL ) );
 
   clock_gettime(CLOCK_MONOTONIC, &start);
-  
+
   #pragma omp for
   for (omp = 0; omp < nb_bloc; omp++)
   {
@@ -110,8 +110,8 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
         b2[i] = bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][i];
       }
 
-      minim = min(b1, b2);
-      maxim = max(b1, b2);
+      minim = min(b1, b2,size_bloc);
+      maxim = max(b1, b2,size_bloc);
       printf("min : %d ||max : %d\n",minim,maxim );
       tri_merge(b1, b2);
 
