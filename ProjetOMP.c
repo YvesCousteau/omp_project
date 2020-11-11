@@ -23,24 +23,25 @@ double project(int size_bloc, int nb_bloc,int nb_thread);
 int main() {
   double tab_times[10];
 
-  tab_times[0] = project(100,10000,2);
-  tab_times[1] = project(10,1000,2);
+  // tab_times[0] = project(100,10000,2);
+  // tab_times[1] = project(10,1000,2);
+  //
+  // printf("----\n");
+  //
+  // tab_times[0] = project(10,10000,2);
+  // tab_times[1] = project(10,1000,2);
+  //
+  // printf("----\n");
+  //
+  // tab_times[0] = project(10,10000,2);
+  // tab_times[1] = project(100,10000,2);
+  //
+  // printf("----\n");
+  //
+  // tab_times[0] = project(100,10000,2);
+  // tab_times[1] = project(100,10000,1);
 
-  printf("----\n");
-
-  tab_times[0] = project(10,10000,2);
-  tab_times[1] = project(10,1000,2);
-
-  printf("----\n");
-
-  tab_times[0] = project(10,10000,2);
-  tab_times[1] = project(100,10000,2);
-
-  printf("----\n");
-
-  tab_times[0] = project(100,10000,2);
-  tab_times[1] = project(100,10000,1);
-
+  tab_times[0] = project(10,100,2);
 
 
   return 0;
@@ -109,6 +110,12 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",nb_bloc,size_bloc,nb_thread,elapsed);
+
+  for ( i = 0; i < nb_bloc; i++) {
+    for ( j = 0; j < size_bloc; j++) {
+      printf("%d\n", bloc[i][j]);
+    }
+  }
 
 
 
