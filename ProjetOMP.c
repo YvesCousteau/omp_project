@@ -18,10 +18,10 @@ void permuter(int *left, int *right);
 int min(int* b1, int* b2, int size_bloc);
 int max(int* b1, int* b2, int size_bloc);
 void tri_merge(int* b1, int* b2,int size_bloc);
-float project(int size_bloc, int nb_bloc,int nb_thread);
+double project(int size_bloc, int nb_bloc,int nb_thread);
 
 int main() {
-  float tab_times[10];
+  double tab_times[10];
 
   tab_times[0] = project(100,10000,2);
   tab_times[1] = project(10,1000,2);
@@ -46,7 +46,7 @@ int main() {
   return 0;
 }
 
-float project(int size_bloc,int nb_bloc,int nb_thread) {
+double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
 
