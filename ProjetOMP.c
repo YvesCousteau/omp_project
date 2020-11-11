@@ -115,6 +115,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
     for ( j = 0; j < size_bloc; j++) {
       printf("%d\n", bloc[i][j]);
     }
+    printf("\n");
   }
 
 
