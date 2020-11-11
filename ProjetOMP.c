@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
   int tab_times[10];
 
   tab_times[0] = project(10,100000,4);
-  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n", elapsed,100000,10,4);
+  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n", tab_times[0],100000,10,4);
 
   return 0;
 }
