@@ -112,7 +112,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
       minim = min(b1, b2,size_bloc);
       maxim = max(b1, b2,size_bloc);
-      // printf("min : %d ||max : %d\n",minim,maxim );
+
       tri_merge(b1, b2,size_bloc);
 
 
@@ -138,12 +138,12 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
 
-  // for ( i = 0; i < nb_bloc; i++) {
-  //   for ( j = 0; j < size_bloc; j++) {
-  //     printf("%d\n", bloc[i][j]);
-  //   }
-  //   printf("\n");
-  // }
+  for ( i = 0; i < nb_bloc; i++) {
+    for ( j = 0; j < size_bloc; j++) {
+      printf("%d\n", bloc[i][j]);
+    }
+    printf("\n");
+  }
 
 
 
