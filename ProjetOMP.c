@@ -12,95 +12,90 @@
 #define NOMBRE_BLOC 10000
 #define RANDOM_NOMBRE_MAX 1000
 
-void generator(int* bloc);
+void generator(int* bloc, int size_bloc);
 void tri(int* bloc, int begin, int end);
 void permuter(int *left, int *right);
-int min(int* b1, int* b2);
-int max(int* b1, int* b2);
-void tri_merge();
+int min(int* b1, int* b2, int size_bloc);
+int max(int* b1, int* b2, int size_bloc);
+void tri_merge(int* b1, int* b2,int size_bloc);
+int project(int size_bloc, int nb_bloc,int nb_thread);
 
-int main(void) {
+int main(int argc, char const *argv[]) {
+  int tab_times[10];
+
+  tab_times[0] = project(10,100000,4);
+  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n", elapsed,100000,10,4);
+
+  return 0;
+}
+
+int project(int size_bloc,int nb_bloc,int nb_thread) {
 
   struct timespec start, finish;
   double elapsed;
   clock_gettime(CLOCK_MONOTONIC, &start);
 
-  int bloc[NOMBRE_BLOC][SIZE_BLOC];
+  int bloc[nb_bloc][size_bloc];
   int i = 0;
   int j = 0;
   int omp;
 
-  omp_set_num_threads(4);
+  omp_set_num_threads(nb_thread);
   srand( time( NULL ) );
   #pragma omp for
-  for (omp = 0; omp < NOMBRE_BLOC; omp++)
+  for (omp = 0; omp < nb_bloc; omp++)
   {
     printf("bloc n°%d\n",omp+1 );
-    generator(bloc[omp]);
-    tri(bloc[omp],0,SIZE_BLOC-1);
+    generator(bloc[omp],size_bloc);
+    tri(bloc[omp],0,size_bloc-1);
 
   }
 
-  // for (i = 0; i < NOMBRE_BLOC; i++) {
-  //   for (j = 0; j < SIZE_BLOC; j++) {
-  //     printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
-  //   }
-  // }
-
-  printf("------------------------\n");
 
   int tmp;
-  printf("NOMBRE_BLOC-1 : %d\n", NOMBRE_BLOC-1);
-  for (j = 1; j < NOMBRE_BLOC-1; j++) {
+  printf("NOMBRE_BLOC-1 : %d\n", nb_bloc-1);
+  for (j = 1; j < nb_bloc-1; j++) {
     tmp = 1 + (j % 2);
-
-    printf("------------------------\n");
-    printf("tmp : %d\n", tmp);
-    printf("omp : %d\n", (NOMBRE_BLOC / 2) - 1);
-    printf("------------------------\n");
 
     #pragma omp for
     for (omp = 0; omp < (4 / 2) - 1; omp++) {
       int minim;
       int maxim;
 
-      printf("------------------------\n");
-      printf("b1 %d\n",1 + (tmp + 2 * omp) % NOMBRE_BLOC);
-      printf("b2 %d\n",1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC);
-
-      minim = min(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
-      printf("minimum %d\n",minim);
-      maxim = max(bloc[1 + (tmp + 2 * omp) % NOMBRE_BLOC], bloc[1 + (SIZE_BLOC + 2 * omp + 1) % NOMBRE_BLOC]);
-      printf("maximum %d\n",maxim);
-
-      tri_merge(&bloc[1 + (tmp + 2 * i) % NOMBRE_BLOC], &bloc[1 + (tmp + 2 * i + 1) % NOMBRE_BLOC]);
-
-      printf("\n\n");
+      minim = min(bloc[1 + (tmp + 2 * omp) % nb_bloc], bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc],size_bloc);
+      maxim = max(bloc[1 + (tmp + 2 * omp) % nb_bloc], bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc],size_bloc);
+      tri_merge(bloc[1 + (tmp + 2 * i) % nb_bloc], bloc[1 + (size_bloc + 2 * i + 1) % nb_bloc],size_bloc);
 
     }
   }
-
-  printf("------------------------\n");
-
-  // for (i = 0; i < NOMBRE_BLOC; i++) {
-  //   for (j = 0; j < SIZE_BLOC; j++) {
-  //     printf("bloc n°%d || bloc[%d] = %d\n",i+1,j+1,bloc[i][j] );
-  //   }
-  // }
-
 
   clock_gettime(CLOCK_MONOTONIC, &finish);
 
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
-  printf("times(s) : %f\n", elapsed);
+
+
+  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n", elapsed,nb_bloc,size_bloc,4);
+
+  // printf("charge : %f\n", elapsed);
+  //
+  // printf("latence : %f\n", (elapsed/(elapsed)));
+  //
+  // printf("vitesse d'exécution : %f\n", elapsed);
+  // printf("débit : %f\n", elapsed);
+  // printf("débit asymptotique : %f\n", elapsed);
+  // printf("débit asymptotique : %f\n", elapsed);
+  // printf("débit infini : %f\n", elapsed);
+  // printf("complexité en temps : %f\n", elapsed);
+  // printf("complexité en espace : %f\n", elapsed);
+
+  return elapsed;
 }
 
-void generator(int* bloc)
+void generator(int* bloc,int size_bloc)
 {
   int random_value;
-  for (int i = 0; i < SIZE_BLOC; i++) {
-    // tire un nombre entre 0 et RANDOM_NOMBRE_MAX
+  for (int i = 0; i < size_bloc; i++) {
     random_value = rand() % RANDOM_NOMBRE_MAX;
     bloc[i] = random_value;
     printf("bloc[%d] : %d\n",i,bloc[i] );
@@ -139,12 +134,12 @@ void permuter(int *left, int *right) {
   *right = tmp;
 }
 
-int min(int* b1, int* b2)
+int min(int* b1, int* b2,int size_bloc)
 {
   int min;
   int i = 0;
   int j = 0;
-  while (i < SIZE_BLOC || j < SIZE_BLOC) {
+  while (i < size_bloc || j < size_bloc) {
     if (b1[i] > b2[j]) {
       min = b2[j];
       i++;
@@ -156,12 +151,12 @@ int min(int* b1, int* b2)
   return min;
 }
 
-int max(int* b1, int* b2)
+int max(int* b1, int* b2,int size_bloc)
 {
   int max;
   int i = 0;
   int j = 0;
-  while (i < SIZE_BLOC || j < SIZE_BLOC) {
+  while (i < size_bloc || j < size_bloc) {
     if (b1[i] < b2[j]) {
       max = b2[j];
       i++;
@@ -174,18 +169,18 @@ int max(int* b1, int* b2)
 }
 
 
-void tri_merge(int* b1, int* b2)
+void tri_merge(int* b1, int* b2,int size_bloc)
 {
-  int b[SIZE_BLOC*2];
-  int bout1[SIZE_BLOC];
-  int bout2[SIZE_BLOC];
-  for (int i = 0; i < SIZE_BLOC; i++) {
+  int b[size_bloc*2];
+  int bout1[size_bloc];
+  int bout2[size_bloc];
+  for (int i = 0; i < size_bloc; i++) {
     b[i]=b1[i];
-    b[SIZE_BLOC+i]=b2[i];
+    b[size_bloc+i]=b2[i];
   }
-  tri(b,0,(SIZE_BLOC*2)-1);
-  for (int i = 0; i < SIZE_BLOC; i++) {
+  tri(b,0,(size_bloc*2)-1);
+  for (int i = 0; i < size_bloc; i++) {
     b1[i]=b[i];
-    b2[i]=b[SIZE_BLOC+i];
+    b2[i]=b[size_bloc+i];
   }
 }
