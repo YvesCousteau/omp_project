@@ -105,7 +105,6 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
         b1[i] = bloc[1 + (tmp + 2 * omp) % nb_bloc][i];
       }
       int* b2 = malloc( sizeof(int) * size_bloc);
-      printf("azeaze\n");
       for (i = 0; i < size_bloc; i++)
       {
         b2[i] = bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][i];
@@ -119,8 +118,8 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
       for (k = 0; k < size_bloc; k++)
       {
-        bloc[1 + (tmp + 2 * omp) % nb_bloc][k] = b1[i];
-        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2[i];
+        bloc[1 + (tmp + 2 * omp) % nb_bloc][k] = b1[k];
+        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2[k];
       }
 
       free(b1);
