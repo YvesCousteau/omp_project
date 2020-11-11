@@ -53,7 +53,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   struct timespec start, finish;
   double elapsed;
-  clock_gettime(CLOCK_MONOTONIC, &start);
+
 
 
 
@@ -77,6 +77,9 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   srand( time( NULL ) );
+
+  clock_gettime(CLOCK_MONOTONIC, &start);
+  
   #pragma omp for
   for (omp = 0; omp < nb_bloc; omp++)
   {
@@ -116,7 +119,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
       for (k = 0; k < size_bloc; k++)
       {
         bloc[1 + (tmp + 2 * omp) % nb_bloc][k] = b1[i];
-        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2][i];
+        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2[i];
       }
 
     }
