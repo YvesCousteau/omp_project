@@ -24,6 +24,7 @@ int main() {
   float tab_times[10];
 
   tab_times[0] = project(10,100000,4);
+  printf("sexe\n\n");
   tab_times[1] = project(10,100000000,4);
 
 
@@ -32,6 +33,8 @@ int main() {
 }
 
 float project(int size_bloc,int nb_bloc,int nb_thread) {
+
+  printf("sexe\n\n");
 
   struct timespec start, finish;
   double elapsed;
