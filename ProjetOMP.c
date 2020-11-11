@@ -34,7 +34,7 @@ int main() {
 
 float project(int size_bloc,int nb_bloc,int nb_thread) {
 
-  printf("sexe\n\n");
+
 
   struct timespec start, finish;
   double elapsed;
@@ -45,12 +45,18 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   int i = 0;
   int j = 0;
   int omp;
+  int random_value;
 
   int** bloc = malloc( sizeof(char*) * nb_bloc);
   for (i = 0; i < nb_bloc; i++) {
-        bloc[i] = malloc(sizeof(char) * size_bloc);
+    bloc[i] = malloc(sizeof(char) * size_bloc);
+    for (j = 0; j < size_bloc; j++)
+    {
+      random_value = rand() % RANDOM_NOMBRE_MAX;
+      bloc[i][j] = random_value;
+    }
   }
-
+  printf("sexe\n\n");
 
 
   omp_set_num_threads(nb_thread);
@@ -61,9 +67,7 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   #pragma omp for
   for (omp = 0; omp < nb_bloc; omp++)
   {
-    generator(bloc[omp],size_bloc);
     tri(bloc[omp],0,size_bloc-1);
-
   }
 
   printf("sexe\n\n");
@@ -111,7 +115,7 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   for ( i = 0; i < nb_bloc; i++) {
-      free(bloc[i]);
+    free(bloc[i]);
   }
   free(bloc);
 
@@ -119,14 +123,6 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   return elapsed;
 }
 
-void generator(int* bloc,int size_bloc)
-{
-  int random_value;
-  for (int i = 0; i < size_bloc; i++) {
-    random_value = rand() % RANDOM_NOMBRE_MAX;
-    bloc[i] = random_value;
-  }
-}
 
 void tri(int* bloc,int begin,int end)
 {
