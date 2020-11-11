@@ -15,9 +15,9 @@
 void generator(int* bloc, int size_bloc);
 void tri(int* bloc, int begin, int end);
 void permuter(int *left, int *right);
-int min(int b1, int b2, int size_bloc);
-int max(int b1, int b2, int size_bloc);
-void tri_merge(int b1, int b2,int size_bloc);
+int min(int* b1, int* b2, int size_bloc);
+int max(int* b1, int* b2, int size_bloc);
+void tri_merge(int* b1, int* b2, int size_bloc);
 double project(int size_bloc, int nb_bloc,int nb_thread);
 
 int main() {
@@ -198,7 +198,7 @@ void permuter(int *left, int *right) {
   *right = tmp;
 }
 
-int min(int* b1, int* b2,int size_bloc)
+int min(int* b1, int* b2, int size_bloc)
 {
   int min;
   int i = 0;
@@ -215,7 +215,7 @@ int min(int* b1, int* b2,int size_bloc)
   return min;
 }
 
-int max(int* b1, int* b2,int size_bloc)
+int max(int* b1, int* b2, int size_bloc)
 {
   int max;
   int i = 0;
@@ -233,7 +233,7 @@ int max(int* b1, int* b2,int size_bloc)
 }
 
 
-void tri_merge(int* b1, int* b2,int size_bloc)
+void tri_merge(int* b1, int* b2, int size_bloc)
 {
   int b[size_bloc*2];
   int bout1[size_bloc];
