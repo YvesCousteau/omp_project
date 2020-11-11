@@ -21,10 +21,10 @@ void tri_merge(int* b1, int* b2,int size_bloc);
 int project(int size_bloc, int nb_bloc,int nb_thread);
 
 int main(int argc, char const *argv[]) {
-  int tab_times[10];
+  float tab_times[10];
 
   tab_times[0] = project(10,100000,4);
-  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n", tab_times[0],100000,10,4);
+  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n"100000,10,4, tab_times[0]);
 
   return 0;
 }
@@ -73,7 +73,7 @@ int project(int size_bloc,int nb_bloc,int nb_thread) {
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
 
-  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n", elapsed,nb_bloc,size_bloc,4);
+  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n"nb_bloc,size_bloc,4,elapsed);
 
   // printf("charge : %f\n", elapsed);
   //
