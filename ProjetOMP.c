@@ -42,6 +42,8 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   int j = 0;
   int omp;
 
+  printf("sexe\n\n");
+
   omp_set_num_threads(nb_thread);
   srand( time( NULL ) );
   #pragma omp for
