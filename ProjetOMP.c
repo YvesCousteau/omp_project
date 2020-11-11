@@ -52,6 +52,8 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
 
   }
 
+  printf("sexe\n\n");
+
 
   int tmp;
   for (j = 1; j < nb_bloc-1; j++) {
@@ -78,6 +80,8 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",nb_bloc,size_bloc,4,elapsed);
+
+
 
   // printf("charge : %f\n", elapsed);
   //
