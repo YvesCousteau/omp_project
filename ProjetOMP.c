@@ -72,6 +72,8 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
+  delete [] bloc;
+
 
   printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",nb_bloc,size_bloc,4,elapsed);
 
