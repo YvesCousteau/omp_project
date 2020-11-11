@@ -24,8 +24,12 @@ int main() {
   float tab_times[10];
 
   tab_times[0] = project(10,100000,4);
-  printf("sexe\n\n");
   tab_times[1] = project(10,1000,4);
+
+  printf("----\n");
+
+  tab_times[0] = project(10,100000,2);
+  tab_times[1] = project(10,1000,2);
 
 
 
@@ -56,12 +60,10 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
       bloc[i][j] = random_value;
     }
   }
-  printf("sexe\n\n");
 
 
   omp_set_num_threads(nb_thread);
 
-  printf("sexe\n\n");
 
   srand( time( NULL ) );
   #pragma omp for
@@ -70,7 +72,6 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
     tri(bloc[omp],0,size_bloc-1);
   }
 
-  printf("sexe\n\n");
 
 
   int tmp;
