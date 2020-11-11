@@ -47,9 +47,9 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   int omp;
   int random_value;
 
-  int** bloc = malloc( sizeof(char*) * nb_bloc);
+  int** bloc = malloc( sizeof(int*) * nb_bloc);
   for (i = 0; i < nb_bloc; i++) {
-    bloc[i] = malloc(sizeof(char) * size_bloc);
+    bloc[i] = malloc(sizeof(int) * size_bloc);
     for (j = 0; j < size_bloc; j++)
     {
       random_value = rand() % RANDOM_NOMBRE_MAX;
