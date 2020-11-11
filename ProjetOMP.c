@@ -23,23 +23,23 @@ float project(int size_bloc, int nb_bloc,int nb_thread);
 int main() {
   float tab_times[10];
 
-  tab_times[0] = project(100,100000,4);
-  tab_times[1] = project(10,1000,4);
+  tab_times[0] = project(100,100000,2);
+  tab_times[1] = project(10,1000,2);
 
   printf("----\n");
 
-  tab_times[0] = project(10,100000,4);
-  tab_times[1] = project(10,1000,4);
+  tab_times[0] = project(10,100000,2);
+  tab_times[1] = project(10,1000,2);
 
   printf("----\n");
 
-  tab_times[0] = project(10,100000,4);
-  tab_times[1] = project(100,100000,4);
-
-  printf("----\n");
-
-  tab_times[0] = project(100,100000,4);
+  tab_times[0] = project(10,100000,2);
   tab_times[1] = project(100,100000,2);
+
+  printf("----\n");
+
+  tab_times[0] = project(100,100000,2);
+  tab_times[1] = project(100,100000,1);
 
 
 
