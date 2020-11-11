@@ -102,12 +102,12 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
       int* b1 = malloc( sizeof(int) * nb_bloc);
       for (i = 0; i < size_bloc; i++)
       {
-        b1[i] = bloc[1 + (tmp + 2 * omp) % nb_bloc][i];
+        b1[i] = bloc[1 + (tmp + (2 * omp)) % nb_bloc][i];
       }
       int* b2 = malloc( sizeof(int) * size_bloc);
       for (i = 0; i < size_bloc; i++)
       {
-        b2[i] = bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][i];
+        b2[i] = bloc[1 + (size_bloc + (2 * omp) + 1) % nb_bloc][i];
       }
 
       minim = min(b1, b2,size_bloc);
