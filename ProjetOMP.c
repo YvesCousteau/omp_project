@@ -25,7 +25,7 @@ int main() {
 
   tab_times[0] = project(10,100000,4);
   printf("sexe\n\n");
-  tab_times[1] = project(10,100000,4);
+  tab_times[1] = project(10,10000000,4);
 
 
 
@@ -41,6 +41,12 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   clock_gettime(CLOCK_MONOTONIC, &start);
 
   int bloc[nb_bloc][size_bloc];
+
+  int bloc = malloc( sizeof(char*) * nb_bloc);
+  for (i = 0; i < nb_bloc; i++) {
+        bloc[i] = malloc(sizeof(char) * size_bloc);
+  }
+
   int i = 0;
   int j = 0;
   int omp;
@@ -104,10 +110,10 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   // printf("complexité en espace : %f\n", elapsed);
 
 
-  // for ( i = 0; i < nb_bloc; i++) {
-  //     free(bloc[i]);
-  // }
-  // free(bloc);
+  for ( i = 0; i < nb_bloc; i++) {
+      free(bloc[i]);
+  }
+  free(bloc);
 
 
   return elapsed;
