@@ -113,7 +113,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
       minim = min(b1, b2,size_bloc);
       maxim = max(b1, b2,size_bloc);
       printf("min : %d ||max : %d\n",minim,maxim );
-      tri_merge(b1, b2);
+      tri_merge(b1, b2,size_bloc);
 
 
       for (k = 0; k < size_bloc; k++)
