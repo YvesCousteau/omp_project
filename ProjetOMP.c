@@ -15,32 +15,33 @@
 void generator(int* bloc, int size_bloc);
 void tri(int* bloc, int begin, int end);
 void permuter(int *left, int *right);
-int min(int* b1, int* b2, int size_bloc);
-int max(int* b1, int* b2, int size_bloc);
-void tri_merge(int* b1, int* b2,int size_bloc);
+int min(int b1, int b2, int size_bloc);
+int max(int b1, int b2, int size_bloc);
+void tri_merge(int b1, int b2,int size_bloc);
 double project(int size_bloc, int nb_bloc,int nb_thread);
 
 int main() {
   double tab_times[10];
 
-  tab_times[0] = project(100,10000,2);
-  tab_times[1] = project(10,1000,2);
+  // tab_times[0] = project(100,10000,2);
+  // tab_times[1] = project(10,1000,2);
+  //
+  // printf("----\n");
+  //
+  // tab_times[0] = project(10,10000,2);
+  // tab_times[1] = project(10,1000,2);
+  //
+  // printf("----\n");
+  //
+  // tab_times[0] = project(10,10000,2);
+  // tab_times[1] = project(100,10000,2);
+  //
+  // printf("----\n");
+  //
+  // tab_times[0] = project(100,10000,2);
+  // tab_times[1] = project(100,10000,1);
 
-  printf("----\n");
-
-  tab_times[0] = project(10,10000,2);
-  tab_times[1] = project(10,1000,2);
-
-  printf("----\n");
-
-  tab_times[0] = project(10,10000,2);
-  tab_times[1] = project(100,10000,2);
-
-  printf("----\n");
-
-  tab_times[0] = project(100,10000,2);
-  tab_times[1] = project(100,10000,1);
-
+  tab_times[0] = project(10,100,2);
 
 
   return 0;
@@ -52,7 +53,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   struct timespec start, finish;
   double elapsed;
-  clock_gettime(CLOCK_MONOTONIC, &start);
+
 
 
 
@@ -76,6 +77,9 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   srand( time( NULL ) );
+
+  clock_gettime(CLOCK_MONOTONIC, &start);
+
   #pragma omp for
   for (omp = 0; omp < nb_bloc; omp++)
   {
@@ -90,12 +94,33 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
     #pragma omp for
     for (omp = 0; omp < (4 / 2) - 1; omp++) {
+
       int minim;
       int maxim;
+      int k;
 
-      minim = min(bloc[1 + (tmp + 2 * omp) % nb_bloc], bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc],size_bloc);
-      maxim = max(bloc[1 + (tmp + 2 * omp) % nb_bloc], bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc],size_bloc);
-      tri_merge(bloc[1 + (tmp + 2 * i) % nb_bloc], bloc[1 + (size_bloc + 2 * i + 1) % nb_bloc],size_bloc);
+      int* b1 = malloc( sizeof(int) * nb_bloc);
+      for (i = 0; i < size_bloc; i++)
+      {
+        b1[i] = bloc[1 + (tmp + 2 * omp) % nb_bloc][i];
+      }
+      int* b2 = malloc( sizeof(int) * size_bloc);
+      for (i = 0; i < size_bloc; i++)
+      {
+        b2[i] = bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][i];
+      }
+
+      minim = min(b1, b2,size_bloc);
+      maxim = max(b1, b2,size_bloc);
+      printf("min : %d ||max : %d\n",minim,maxim );
+      tri_merge(b1, b2);
+
+
+      for (k = 0; k < size_bloc; k++)
+      {
+        bloc[1 + (tmp + 2 * omp) % nb_bloc][k] = b1[i];
+        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2[i];
+      }
 
     }
   }
@@ -109,6 +134,13 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
+
+  for ( i = 0; i < nb_bloc; i++) {
+    for ( j = 0; j < size_bloc; j++) {
+      printf("%d\n", bloc[i][j]);
+    }
+    printf("\n");
+  }
 
 
 
