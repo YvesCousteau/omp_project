@@ -89,7 +89,7 @@ float project(int size_bloc,int nb_bloc,int nb_thread) {
   // printf("complexité en temps : %f\n", elapsed);
   // printf("complexité en espace : %f\n", elapsed);
 
-  delete [][] bloc;
+  free(bloc);
 
   return elapsed;
 }
