@@ -108,7 +108,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
 
-  printf("times(s) en fonction de taille total dedonnées (%d*%d) pour nb threads(%d) : %f\n",nb_bloc,size_bloc,nb_thread,elapsed);
+  printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
 
 
 
