@@ -89,11 +89,11 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   int tmp;
-  for (j = 0; j < nb_bloc; j++) {
+  for (j = 0; j < nb_bloc - 1; j++) {
     tmp = 1 + (j % 2);
 
     #pragma omp for
-    for (omp = 0; omp < (4 / 2) - 1; omp++) {
+    for (omp = 0; omp < (nb_bloc / 2) - 1; omp++) {
 
       int minim;
       int maxim;
@@ -112,7 +112,7 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
       minim = min(b1, b2,size_bloc);
       maxim = max(b1, b2,size_bloc);
-      printf("min : %d ||max : %d\n",minim,maxim );
+      // printf("min : %d ||max : %d\n",minim,maxim );
       tri_merge(b1, b2,size_bloc);
 
 
