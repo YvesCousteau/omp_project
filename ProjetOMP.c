@@ -24,7 +24,7 @@ int main() {
   float tab_times[10];
 
   tab_times[0] = project(10,100000,4);
-  tab_times[1] = project(1000,100000,4);
+  tab_times[1] = project(10,100000000,4);
 
   return 0;
 }
