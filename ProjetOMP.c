@@ -8,9 +8,7 @@
 #include <time.h>
 #include <omp.h>
 
-#define SIZE_BLOC 10
-#define NOMBRE_BLOC 10000
-#define RANDOM_NOMBRE_MAX 1000
+#define RANDOM_NOMBRE_MAX 10000
 
 void generator(int* bloc, int size_bloc);
 void tri(int* bloc, int begin, int end);
@@ -41,7 +39,7 @@ int main() {
   // tab_times[0] = project(100,10000,2);
   // tab_times[1] = project(100,10000,1);
 
-  tab_times[0] = project(10,100,2);
+  tab_times[0] = project(10,1000,2);
 
 
   return 0;
@@ -49,13 +47,8 @@ int main() {
 
 double project(int size_bloc,int nb_bloc,int nb_thread) {
 
-
-
   struct timespec start, finish;
   double elapsed;
-
-
-
 
   int i = 0;
   int j = 0;
@@ -88,38 +81,37 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
 
-  int tmp;
-  for (j = 0; j < nb_bloc - 1; j++) {
-    tmp = 1 + (j % 2);
+
+  for (j = 0; j < (nb_bloc - 1); j++) {
+
+    int tmp = 1 + (j % 2);
 
     #pragma omp for
-    for (omp = 0; omp < (nb_bloc / 2) - 1; omp++) {
+    for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++) {
 
       int minim;
       int maxim;
       int k;
 
-      int* b1 = malloc( sizeof(int) * nb_bloc);
+      int* b1 = malloc( sizeof(int) * size_bloc);
+
       for (i = 0; i < size_bloc; i++)
       {
-        b1[i] = bloc[1 + (tmp + (2 * omp)) % nb_bloc][i];
+        b1[i] = bloc[((tmp + (2 * omp)) % nb_bloc)][i];
       }
       int* b2 = malloc( sizeof(int) * size_bloc);
+
       for (i = 0; i < size_bloc; i++)
       {
-        b2[i] = bloc[1 + (size_bloc + (2 * omp) + 1) % nb_bloc][i];
+        b2[i] = bloc[((tmp + (2 * omp) + 1) % nb_bloc)][i];
       }
-
-      minim = min(b1, b2,size_bloc);
-      maxim = max(b1, b2,size_bloc);
 
       tri_merge(b1, b2,size_bloc);
 
-
       for (k = 0; k < size_bloc; k++)
       {
-        bloc[1 + (tmp + 2 * omp) % nb_bloc][k] = b1[k];
-        bloc[1 + (size_bloc + 2 * omp + 1) % nb_bloc][k] = b2[k];
+        bloc[((tmp + 2 * omp) % nb_bloc)][k] = b1[k];
+        bloc[((tmp + 2 * omp + 1) % nb_bloc)][k] = b2[k];
       }
 
       free(b1);
@@ -134,16 +126,16 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
 
-
-
-  printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
-
   for ( i = 0; i < nb_bloc; i++) {
     for ( j = 0; j < size_bloc; j++) {
       printf("%d\n", bloc[i][j]);
     }
     printf("\n");
   }
+
+  printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
+
+
 
 
 
