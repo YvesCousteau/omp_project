@@ -1,5 +1,13 @@
 
 import ctypes
+import csv
+import math
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--test", type=int, help="select test to run [1, 2, 3, (10 for all)]")
+args = parser.parse_args()
+
 
 so_file = ('./omp_proj.so')
 
@@ -12,12 +20,96 @@ c_functions.project.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_int]
 c_functions.project.restype =  ctypes.c_double
 
 
-print("First test : Temps d’exécution en fonction de taille total de données (N*K)")
-nthreads = 4
-for x in xrange(10,1000):
-	n = x
-	k = x
-	print("N={}, K={}, nthreads={}", n, k, nthreads)
-res = c_functions.project(n, k, nthreads)
+# Print iterations progress
+def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+	"""
+	Call in a loop to create terminal progress bar
+	@author: https://stackoverflow.com/a/34325723/13169250		 
+	@params:
+		iteration   - Required  : current iteration (Int)
+		total       - Required  : total iterations (Int)
+		prefix      - Optional  : prefix string (Str)
+		suffix      - Optional  : suffix string (Str)
+		decimals    - Optional  : positive number of decimals in percent complete (Int)
+		length      - Optional  : character length of bar (Int)
+		fill        - Optional  : bar fill character (Str)
+		printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
+	"""
+	percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+	filledLength = int(length * iteration // total)
+	bar = fill * filledLength + '-' * (length - filledLength)
+	print(f'\r{prefix} |{bar}| {percent}% {suffix}', end = printEnd)
+	# Print New Line on Complete
+	if iteration == total: 
+		print()
 
-print("> "+str(res))
+
+if (args.test == 1 or args.test == 10):
+	print("First test : Temps d’exécution en fonction de taille total de données (N*K)")
+	printProgressBar(0, 100*100, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+	nthreads = 4
+	iteration = 0
+	for n in range(10,100, 10):
+
+		if (n == 10):
+			res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
+		else:
+			res = []
+
+		for k in range(10,100):
+			iteration = iteration+1
+			# print(f'N={n}, K={k}, nthreads={nthreads}')
+			res.append( [n, k, n*k, nthreads, c_functions.project(n, k, nthreads)] ) 
+
+			printProgressBar(iteration, 100*100, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+		# save subresults to file
+		with open('first.csv', 'a+', newline='') as file:
+			writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
+			writer.writerows(res)
+			file.close()
+
+
+if (args.test == 2 or args.test == 10):
+	print("Second test : Pour N*K fixé, la variation du temps d’exécution en fonction de la variation de K")
+	printProgressBar(0, 100, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+	nthreads = 4
+	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
+	nk_product = 100000
+	for k in range(10, 100):
+		n = nk_product//k
+		# print(f'N={n}, K={k}, nthreads={nthreads}')
+		res.append( [n, k, nk_product, nthreads, c_functions.project(n, k, nthreads)] ) 
+
+		printProgressBar(k, 100, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+
+	# save results to file
+	with open('second.csv', 'a+', newline='') as file:
+		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
+		writer.writerows(res)
+		file.close()
+
+
+if (args.test == 3 or args.test == 10):
+
+	print("Third test : Pour N*K fixé, la variation du temps d’exécution en fonction de nombre de Threads")
+	printProgressBar(0, 1000, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+	nthreads = 4
+	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
+	n = 100
+	k = 100
+	for nthreads in range(0, 20):
+		# print(f'N={n}, K={k}, nthreads={nthreads}')
+		res.append( [n, k, n*k, nthreads, c_functions.project(n, k, nthreads)] )
+
+		printProgressBar(k, 1000, prefix = 'Progress:', suffix = 'Complete', length = 50)
+
+	# save results to file
+	with open('third.csv', 'a+', newline='') as file:
+		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
+		writer.writerows(res)
+		file.close()

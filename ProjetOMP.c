@@ -126,14 +126,14 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
 
-  for ( i = 0; i < nb_bloc; i++) {
-    for ( j = 0; j < size_bloc; j++) {
-      printf("%d\n", bloc[i][j]);
-    }
-    printf("\n");
-  }
+  // for ( i = 0; i < nb_bloc; i++) {
+  //   for ( j = 0; j < size_bloc; j++) {
+  //     printf("%d\n", bloc[i][j]);
+  //   }
+  //   printf("\n");
+  // }
 
-  printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
+  // printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
 
 
 
