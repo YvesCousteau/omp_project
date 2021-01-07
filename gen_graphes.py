@@ -52,9 +52,7 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
 
 if (args.test == 1 or args.test == 10):
 	print("First test : Temps d’exécution en fonction de taille total de données (N*K)")
-	printProgressBar(0, 100*100, prefix = 'Progress:', suffix = 'Complete', length = 50)
-
-	iteration = 0
+	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
 	k = 2**8
 	for i in range(2, 16):
@@ -65,11 +63,10 @@ if (args.test == 1 or args.test == 10):
 		else:
 			res = []
 
-			iteration = iteration+1
 			# print(f'N={n}, K={k}, nthreads={nthreads}')
 			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-			printProgressBar(iteration, 16-2-i, prefix = 'Progress for k fixed:', suffix = 'Complete', length = 50)
+			printProgressBar(16-2-i, 16-2, prefix = 'Progress for k fixed:', suffix = 'Complete', length = 50)
 
 	# save subresults to file
 	with open('nk_fixed-n_inc.csv', 'a+', newline='') as file:
@@ -104,7 +101,7 @@ if (args.test == 1 or args.test == 10):
 
 if (args.test == 2 or args.test == 10):
 	print("Second test : Pour N*K fixé, la variation du temps d’exécution en fonction de la variation de K et N")
-	printProgressBar(0, 100, prefix = 'Progress:', suffix = 'Complete', length = 50)
+	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
 	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
 	nk_product = 2**2 * 2**16
