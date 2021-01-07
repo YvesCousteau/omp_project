@@ -54,6 +54,15 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   int j = 0;
   int omp;
   int random_value;
+  int minim;
+  int maxim;
+  int k;
+
+
+  int* b1 = malloc( sizeof(int) * size_bloc);
+
+  int* b2 = malloc( sizeof(int) * size_bloc);
+
 
   int** bloc = malloc( sizeof(int*) * nb_bloc);
   for (i = 0; i < nb_bloc; i++) {
@@ -74,7 +83,6 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   #pragma omp parallel for private(omp)
   for (omp = 0; omp < nb_bloc; omp++) {
-    printf("th#%d / %d (%d)\n", omp_get_thread_num(), omp_get_max_threads(), nb_thread);
     tri(bloc[omp],0,size_bloc-1);
   }
 
@@ -87,18 +95,11 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
     #pragma omp parallel for
     for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++)
     {
-
-      int minim;
-      int maxim;
-      int k;
-
-      int* b1 = malloc( sizeof(int) * size_bloc);
-
       for (i = 0; i < size_bloc; i++)
       {
         b1[i] = bloc[((tmp + (2 * omp)) % nb_bloc)][i];
       }
-      int* b2 = malloc( sizeof(int) * size_bloc);
+
 
       for (i = 0; i < size_bloc; i++)
       {
@@ -112,20 +113,11 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
         bloc[((tmp + 2 * omp) % nb_bloc)][k] = b1[k];
         bloc[((tmp + 2 * omp + 1) % nb_bloc)][k] = b2[k];
       }
-
-
-      free(b1);
-      free(b2);
-
     }
-    printf("th\n");
   }
 
-  printf("ther\n");
 
   clock_gettime(CLOCK_MONOTONIC, &finish);
-
-  printf("th\n");
 
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
@@ -133,7 +125,13 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   printf("th\n");
 
+  free(b1);
 
+  printf("th\n");
+
+  free(b2);
+
+  printf("th\n");
   for ( i = 0; i < nb_bloc; i++) {
     free(bloc[i]);
   }
