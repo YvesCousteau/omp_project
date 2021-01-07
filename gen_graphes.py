@@ -55,7 +55,7 @@ if (args.test == 1 or args.test == 10):
 	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
 	k = 2**8
-	for i in range(2, 16):
+	for i in range(2, 16+1):
 		n=2**i
 
 		if (n == 10):
@@ -66,7 +66,7 @@ if (args.test == 1 or args.test == 10):
 			# print(f'N={n}, K={k}, nthreads={nthreads}')
 			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-			printProgressBar(16-2-i, 16-2, prefix = 'Progress for k fixed:', suffix = 'Complete', length = 50)
+			printProgressBar(i-2, 16-2, prefix = 'Progress for k fixed:', suffix = 'Complete', length = 50)
 
 	# save subresults to file
 	with open('nk_fixed-n_inc.csv', 'a+', newline='') as file:
@@ -75,7 +75,7 @@ if (args.test == 1 or args.test == 10):
 		file.close()
 
 	n = 2**8
-	for i in range(2, 16):
+	for i in range(2, 16+1):
 		k=2**i
 
 		if (n == 10):
@@ -83,11 +83,10 @@ if (args.test == 1 or args.test == 10):
 		else:
 			res = []
 
-			iteration = iteration+1
 			# print(f'N={n}, K={k}, args.nthreads={args.nthreads}')
 			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-			printProgressBar(iteration, 16-2-i, prefix = 'Progress for n fixed:', suffix = 'Complete', length = 50)
+			printProgressBar(i-2, 16-2, prefix = 'Progress for n fixed:', suffix = 'Complete', length = 50)
 
 	# save subresults to file
 	with open('nk_fixed-k_inc.csv', 'a+', newline='') as file:
@@ -105,13 +104,13 @@ if (args.test == 2 or args.test == 10):
 
 	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
 	nk_product = 2**2 * 2**16
-	for i in range(2, 16):
+	for i in range(2, 16+1):
 		n = 2**i
 		k = 2**(16+2-i)
 		# print(f'N={n}, K={k}, args.nthreads={args.nthreads}')
 		res.append( [n, k, nk_product, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-		printProgressBar(i, 16-2-i, prefix = 'Progress:', suffix = 'Complete', length = 50)
+		printProgressBar(i-2, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
 
 	# save results to file
