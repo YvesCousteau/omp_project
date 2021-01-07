@@ -86,13 +86,10 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
     tri(bloc[omp],0,size_bloc-1);
   }
 
-  printf("nb#%d\n",  nb_bloc);
 
   for (j = 0; j < (nb_bloc - 1); j++) {
-    printf("th#%d / %d (%d)\n", omp_get_thread_num(), omp_get_max_threads(), nb_thread);
     int tmp = 1 + (j % 2);
-
-    #pragma omp parallel for
+    #pragma omp parallel for private(omp)
     for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++)
     {
       for (i = 0; i < size_bloc; i++)
@@ -122,22 +119,16 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
+  // printf("s\n");
+  // free(b1);
+  // printf("s\n");
+  // free(b2);
+  printf("s\n");
 
-  printf("th\n");
-
-  free(b1);
-
-  printf("th\n");
-
-  free(b2);
-
-  printf("th\n");
-  for ( i = 0; i < nb_bloc; i++) {
-    free(bloc[i]);
-  }
-  free(bloc);
-
-
+  // for ( i = 0; i < nb_bloc; i++) {
+  //   free(bloc[i]);
+  // }
+  // free(bloc);
   return elapsed;
 }
 
