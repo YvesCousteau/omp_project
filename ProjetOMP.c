@@ -39,7 +39,7 @@ int main() {
   // tab_times[0] = project(100,10000,2);
   // tab_times[1] = project(100,10000,1);
 
-  tab_times[0] = project(256,4096,2);
+  tab_times[0] = project(4,16,2);
 
 
   return 0;
@@ -50,14 +50,10 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   struct timespec start, finish;
   double elapsed;
 
-  int i = 0;
-  int j = 0;
   int omp;
   int random_value;
   int minim;
   int maxim;
-  int k;
-
 
   int* b1 = malloc( sizeof(int) * size_bloc);
 
@@ -65,9 +61,9 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
 
   int** bloc = malloc( sizeof(int*) * nb_bloc);
-  for (i = 0; i < nb_bloc; i++) {
+  for (int i = 0; i < nb_bloc; i++) {
     bloc[i] = malloc(sizeof(int) * size_bloc);
-    for (j = 0; j < size_bloc; j++)
+    for (int j = 0; j < size_bloc; j++)
     {
       random_value = rand() % RANDOM_NOMBRE_MAX;
       bloc[i][j] = random_value;
@@ -81,29 +77,32 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   clock_gettime(CLOCK_MONOTONIC, &start);
 
-  #pragma omp parallel for private(i)
-  for (i = 0; i < nb_bloc; i++) {
+  #pragma omp parallel for
+  for (int i = 0; i < nb_bloc; i++) {
     tri(bloc[i],0,size_bloc-1);
   }
 
 
-  for (j = 0; j < (nb_bloc - 1); j++) {
-    int tmp = 1 + (j % 2);
-    #pragma omp parallel for private(i)
-    for (i = 0; i < ((nb_bloc / 2) - 1); i++) {
 
-      for (i = 0; i < size_bloc; i++)  {
+  for (int j = 0; j < (nb_bloc - 1); j++) {
+    int tmp = 1 + (j % 2);
+
+    #pragma omp parallel for
+    for (int i = 0; i < ((nb_bloc / 2) - 1); i++) { // infinit loop
+
+      // LA CON DE TA MERE LE i ptnnnnnn
+      for (int i = 0; i < size_bloc; i++)  {
         b1[i] = bloc[((tmp + (2 * i)) % nb_bloc)][i];
-        b2[i] = bloc[((tmp + (2 * i) + 1) % nb_bloc)][i];
       }
 
-
-      for (i = 0; i < size_bloc; i++) {
+      for (int i = 0; i < size_bloc; ++i) {
+        b2[i] = bloc[((tmp + (2 * i) + 1) % nb_bloc)][i];
       }
 
       tri_merge(b1, b2,size_bloc);
 
-      for (k = 0; k < size_bloc; k++)  {
+
+      for (int k = 0; k < size_bloc; k++)  {
         bloc[((tmp + 2 * i) % nb_bloc)][k] = b1[k];
         bloc[((tmp + 2 * i + 1) % nb_bloc)][k] = b2[k];
       }
@@ -120,44 +119,13 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   free(b1);
   free(b2);
 
-  for ( i = 0; i < nb_bloc; i++) {
+  for (int i = 0; i < nb_bloc; i++) {
     free(bloc[i]);
   }
   free(bloc);
   return elapsed;
 }
 
-
-void tri(int* bloc,int begin,int end)
-{
-  int rot;
-  int i;
-  int j;
-  if(begin < end) {
-    rot = begin;
-    i = begin;
-    j = end;
-    while (i < j) {
-      while(bloc[i] <= bloc[rot] && i < end)
-      i++;
-      while(bloc[j] > bloc[rot])
-      j--;
-      if(i < j) {
-        permuter(&bloc[i], &bloc[j]);
-      }
-    }
-    permuter(&bloc[rot], &bloc[j]);
-    tri(bloc, begin, j - 1);
-    tri(bloc, j + 1, end);
-  }
-}
-
-void permuter(int *left, int *right) {
-  int tmp;
-  tmp = *left;
-  *left = *right;
-  *right = tmp;
-}
 
 int min(int* b1, int* b2, int size_bloc)
 {
@@ -193,6 +161,41 @@ int max(int* b1, int* b2, int size_bloc)
   return max;
 }
 
+void tri(int* bloc,int begin,int end) {
+
+  int rot, i, j;
+
+  if(begin < end) {
+
+    rot = begin;
+    i = begin;
+    j = end;
+    
+    while (i < j) {
+
+      while(bloc[i] <= bloc[rot] && i < end)
+        i++;
+
+      while(bloc[j] > bloc[rot])
+        j--;
+
+      if(i < j)
+        permuter(&bloc[i], &bloc[j]);
+
+    }
+
+    permuter(&bloc[rot], &bloc[j]);
+    tri(bloc, begin, j - 1);
+    tri(bloc, j + 1, end);
+
+  }
+
+}
+
+void permuter(int *left, int *right) {
+  int tmp; tmp = *left;
+  *left = *right; *right = tmp;
+}
 
 void tri_merge(int* b1, int* b2, int size_bloc)
 {
