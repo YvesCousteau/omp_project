@@ -68,25 +68,21 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   omp_set_num_threads(nb_thread);
 
-
   srand( time( NULL ) );
 
   clock_gettime(CLOCK_MONOTONIC, &start);
 
-  #pragma omp for private(omp)
+  #pragma omp parallel for private(omp)
   for (omp = 0; omp < nb_bloc; omp++) {
     printf("th#%d / %d (%d)\n", omp_get_thread_num(), omp_get_max_threads(), nb_thread);
     tri(bloc[omp],0,size_bloc-1);
   }
 
-
-
-
   for (j = 0; j < (nb_bloc - 1); j++) {
 
     int tmp = 1 + (j % 2);
 
-    #pragma omp for
+    #pragma omp parallel for
     for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++) {
 
       int minim;
