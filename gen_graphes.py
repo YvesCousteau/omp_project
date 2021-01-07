@@ -54,15 +54,12 @@ if (args.test == 1 or args.test == 10):
 	print("First test : Temps d’exécution en fonction de taille total de données (N*K)")
 	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
 
+	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
 	k = 2**8
 	for i in range(2, 16+1):
 		n=2**i
 
-		if (n == 10):
-			res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
-		else:
-			res = []
-
+		if (i == 2):
 			# print(f'N={n}, K={k}, nthreads={nthreads}')
 			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
@@ -74,15 +71,11 @@ if (args.test == 1 or args.test == 10):
 		writer.writerows(res)
 		file.close()
 
+
+	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
 	n = 2**8
 	for i in range(2, 16+1):
 		k=2**i
-
-		if (n == 10):
-			res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
-		else:
-			res = []
-
 			# print(f'N={n}, K={k}, args.nthreads={args.nthreads}')
 			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
