@@ -39,7 +39,7 @@ int main() {
   // tab_times[0] = project(100,10000,2);
   // tab_times[1] = project(100,10000,1);
 
-  tab_times[0] = project(10,1000,2);
+  tab_times[0] = project(256,4096,2);
 
 
   return 0;
@@ -81,35 +81,33 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   clock_gettime(CLOCK_MONOTONIC, &start);
 
-  #pragma omp parallel for private(omp)
-  for (omp = 0; omp < nb_bloc; omp++) {
-    tri(bloc[omp],0,size_bloc-1);
+  #pragma omp parallel for private(i)
+  for (i = 0; i < nb_bloc; i++) {
+    tri(bloc[i],0,size_bloc-1);
   }
 
 
   for (j = 0; j < (nb_bloc - 1); j++) {
     int tmp = 1 + (j % 2);
-    #pragma omp parallel for private(omp)
-    for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++)
-    {
-      for (i = 0; i < size_bloc; i++)
-      {
-        b1[i] = bloc[((tmp + (2 * omp)) % nb_bloc)][i];
+    #pragma omp parallel for private(i)
+    for (i = 0; i < ((nb_bloc / 2) - 1); i++) {
+
+      for (i = 0; i < size_bloc; i++)  {
+        b1[i] = bloc[((tmp + (2 * i)) % nb_bloc)][i];
+        b2[i] = bloc[((tmp + (2 * i) + 1) % nb_bloc)][i];
       }
 
 
-      for (i = 0; i < size_bloc; i++)
-      {
-        b2[i] = bloc[((tmp + (2 * omp) + 1) % nb_bloc)][i];
+      for (i = 0; i < size_bloc; i++) {
       }
 
       tri_merge(b1, b2,size_bloc);
 
-      for (k = 0; k < size_bloc; k++)
-      {
-        bloc[((tmp + 2 * omp) % nb_bloc)][k] = b1[k];
-        bloc[((tmp + 2 * omp + 1) % nb_bloc)][k] = b2[k];
+      for (k = 0; k < size_bloc; k++)  {
+        bloc[((tmp + 2 * i) % nb_bloc)][k] = b1[k];
+        bloc[((tmp + 2 * i + 1) % nb_bloc)][k] = b2[k];
       }
+
     }
   }
 
@@ -119,16 +117,13 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
-  // printf("s\n");
-  // free(b1);
-  // printf("s\n");
-  // free(b2);
-  printf("s\n");
+  free(b1);
+  free(b2);
 
-  // for ( i = 0; i < nb_bloc; i++) {
-  //   free(bloc[i]);
-  // }
-  // free(bloc);
+  for ( i = 0; i < nb_bloc; i++) {
+    free(bloc[i]);
+  }
+  free(bloc);
   return elapsed;
 }
 

@@ -50,39 +50,49 @@ def printProgressBar (iteration, total, prefix = '', suffix = '', decimals = 1, 
 
 ########
 
+if (args.test == 0):
+	import time
+	print("Init test : Progress bar")
+	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 10)
+	for i in range(2, 16+1):
+		printProgressBar(i-2, 16-2, prefix = 'Progress 1/2:', suffix = 'Complete', length = 20)
+		time.sleep(.2)
+	for i in range(2, 16+1):
+		printProgressBar(i-2, 16-2, prefix = 'Progress 1/2:', suffix = 'Complete', length = 20)
+		time.sleep(.2)
+
+
 if (args.test == 1 or args.test == 10):
 	print("First test : Temps d’exécution en fonction de taille total de données (N*K)")
-	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
+	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 20)
 
 	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
-	k = 2**8
+	k = 2**2
 	for i in range(2, 16+1):
 		n=2**i
-
-		if (i == 2):
 			# print(f'N={n}, K={k}, nthreads={nthreads}')
-			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
+		res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-			printProgressBar(i-2, 16-2, prefix = 'Progress for k fixed:', suffix = 'Complete', length = 50)
+		printProgressBar(i-2, 16-2, prefix = 'Progress 1/2:', suffix = 'Complete', length = 20)
 
 	# save subresults to file
-	with open('nk_fixed-n_inc.csv', 'a+', newline='') as file:
+	with open('output/nk_fixed-n_inc.csv', 'a+', newline='') as file:
 		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
 		writer.writerows(res)
 		file.close()
 
 
 	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
-	n = 2**8
+	n = 2**2
 	for i in range(2, 16+1):
 		k=2**i
 			# print(f'N={n}, K={k}, args.nthreads={args.nthreads}')
-			res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
+		res.append( [n, k, n*k, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-			printProgressBar(i-2, 16-2, prefix = 'Progress for n fixed:', suffix = 'Complete', length = 50)
+		printProgressBar(i-2, 16-2, prefix = 'Progress 2/2:', suffix = 'Complete', length = 20)
 
 	# save subresults to file
-	with open('nk_fixed-k_inc.csv', 'a+', newline='') as file:
+	with open('output/nk_fixed-k_inc.csv', 'a+', newline='') as file:
 		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
 		writer.writerows(res)
 		file.close()
@@ -93,7 +103,7 @@ if (args.test == 1 or args.test == 10):
 
 if (args.test == 2 or args.test == 10):
 	print("Second test : Pour N*K fixé, la variation du temps d’exécution en fonction de la variation de K et N")
-	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
+	printProgressBar(0, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 20)
 
 	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
 	nk_product = 2**2 * 2**16
@@ -103,11 +113,11 @@ if (args.test == 2 or args.test == 10):
 		# print(f'N={n}, K={k}, args.nthreads={args.nthreads}')
 		res.append( [n, k, nk_product, args.nthreads, c_functions.project(n, k, args.nthreads)] )
 
-		printProgressBar(i-2, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 50)
+		printProgressBar(i-2, 16-2, prefix = 'Progress:', suffix = 'Complete', length = 20)
 
 
 	# save results to file
-	with open('nk_fixed-n_and_k_inc.csv', 'a+', newline='') as file:
+	with open('output/nk_fixed-n_and_k_inc.csv', 'a+', newline='') as file:
 		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
 		writer.writerows(res)
 		file.close()
@@ -116,7 +126,7 @@ if (args.test == 2 or args.test == 10):
 if (args.test == 3 or args.test == 10):
 
 	print("Third test : Pour N*K fixé, la variation du temps d’exécution en fonction de nombre de Threads")
-	printProgressBar(0, 1000, prefix = 'Progress:', suffix = 'Complete', length = 50)
+	printProgressBar(0, 1000, prefix = 'Progress:', suffix = 'Complete', length = 20)
 
 	res = [ ["N","K", "N*K", "nThreads", "Execution Time"] ]
 
@@ -126,10 +136,10 @@ if (args.test == 3 or args.test == 10):
 		# print(f'N={n}, K={k}, nthreads={nthreads}')
 		res.append( [n, k, n*k, nthreads, c_functions.project(n, k, nthreads)] )
 
-		printProgressBar(nthreads, args.nthreads, prefix = 'Progress for n < k:', suffix = 'Complete', length = 50)
+		printProgressBar(nthreads, args.nthreads, prefix = 'Progress 1/2:', suffix = 'Complete', length = 20)
 
 	# save results to file
-	with open('nk_fixed-time_by_nthreads-n_lt_k.csv', 'a+', newline='') as file:
+	with open('output/nk_fixed-time_by_nthreads-n_lt_k.csv', 'a+', newline='') as file:
 		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
 		writer.writerows(res)
 		file.close()
@@ -140,10 +150,10 @@ if (args.test == 3 or args.test == 10):
 		# print(f'N={n}, K={k}, nthreads={nthreads}')
 		res.append( [n, k, n*k, nthreads, c_functions.project(n, k, nthreads)] )
 
-		printProgressBar(nthreads, args.nthreads, prefix = 'Progress for n > k:', suffix = 'Complete', length = 50)
+		printProgressBar(nthreads, args.nthreads, prefix = 'Progress 2/2:', suffix = 'Complete', length = 20)
 
 	# save results to file
-	with open('nk_fixed-time_by_nthreads-n_gt_k.csv', 'a+', newline='') as file:
+	with open('output/nk_fixed-time_by_nthreads-n_gt_k.csv', 'a+', newline='') as file:
 		writer = csv.writer(file, quoting=csv.QUOTE_NONNUMERIC, delimiter=';')
 		writer.writerows(res)
 		file.close()
