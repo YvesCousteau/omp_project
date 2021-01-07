@@ -74,15 +74,19 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   #pragma omp parallel for private(omp)
   for (omp = 0; omp < nb_bloc; omp++) {
+    printf("th#%d / %d (%d)\n", omp_get_thread_num(), omp_get_max_threads(), nb_thread);
     tri(bloc[omp],0,size_bloc-1);
   }
 
-  for (j = 0; j < (nb_bloc - 1); j++) {
+  printf("nb#%d\n",  nb_bloc);
 
+  for (j = 0; j < (nb_bloc - 1); j++) {
+    printf("th#%d / %d (%d)\n", omp_get_thread_num(), omp_get_max_threads(), nb_thread);
     int tmp = 1 + (j % 2);
 
     #pragma omp parallel for
-    for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++) {
+    for (omp = 0; omp < ((nb_bloc / 2) - 1); omp++)
+    {
 
       int minim;
       int maxim;
@@ -109,27 +113,25 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
         bloc[((tmp + 2 * omp + 1) % nb_bloc)][k] = b2[k];
       }
 
+
       free(b1);
       free(b2);
 
     }
+    printf("th\n");
   }
 
+  printf("ther\n");
+
   clock_gettime(CLOCK_MONOTONIC, &finish);
+
+  printf("th\n");
 
   elapsed = (finish.tv_sec - start.tv_sec);
   elapsed += (finish.tv_nsec - start.tv_nsec) / 1000000000.0;
 
 
-  // for ( i = 0; i < nb_bloc; i++) {
-  //   for ( j = 0; j < size_bloc; j++) {
-  //     printf("%d\n", bloc[i][j]);
-  //   }
-  //   printf("\n");
-  // }
-
-  // printf("(%d*%d) #threads=%d : %fsec\n",nb_bloc,size_bloc,nb_thread,elapsed);
-
+  printf("th\n");
 
 
   for ( i = 0; i < nb_bloc; i++) {
