@@ -73,9 +73,9 @@ double project(int size_bloc,int nb_bloc,int nb_thread) {
 
   clock_gettime(CLOCK_MONOTONIC, &start);
 
-  #pragma omp for
-  for (omp = 0; omp < nb_bloc; omp++)
-  {
+  #pragma omp for private(omp)
+  for (omp = 0; omp < nb_bloc; omp++) {
+    printf("th#%d / %d (%d)\n", omp_get_thread_num(), omp_get_max_threads(), nb_thread);
     tri(bloc[omp],0,size_bloc-1);
   }
 
